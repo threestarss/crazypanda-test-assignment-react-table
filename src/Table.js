@@ -16,7 +16,7 @@ function Table({ dataToShow, setDataToShow }) {
   useEffect(() => {
     async function fetchData() {
       const fetchResult = await fetch(
-        `http://jsonplaceholder.typicode.com/comments`
+        `https://jsonplaceholder.typicode.com/comments`
       );
       const fetchResponse = await fetchResult.json();
       const choppedResponse = fetchResponse.slice(0, 500);
