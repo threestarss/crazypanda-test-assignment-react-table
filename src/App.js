@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import DataStore from "./Contexts/DataStore";
+import PageNum from "./Contexts/PageNum";
+import UnsortedData from "./Contexts/UnsortedData";
+import SortingMode from "./Contexts/SortingMode";
+
+import Header from "./Header";
+import Table from "./Table";
+import Pagination from "./Pagination";
 
 function App() {
+  const [data, setData] = useState([]);
+  const [unsortedData, setUnsortedData] = useState([]);
+  const [pageNum, setPageNum] = useState(0);
+  const [sortMode, setSortMode] = useState(true);
+  const [dataToShow, setDataToShow] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <DataStore.Provider value={{ data, setData }}>
+      <UnsortedData.Provider value={{ unsortedData, setUnsortedData }}>
+        <PageNum.Provider value={{ pageNum, setPageNum }}>
+          <SortingMode.Provider value={{ sortMode, setSortMode }}>
+            <div className="wrapper">
+              <Header dataToShow={dataToShow} setDataToShow={setDataToShow} />
+              <Table dataToShow={dataToShow} setDataToShow={setDataToShow} />
+              <Pagination />
+            </div>
+          </SortingMode.Provider>
+        </PageNum.Provider>
+      </UnsortedData.Provider>
+    </DataStore.Provider>
   );
 }
 
