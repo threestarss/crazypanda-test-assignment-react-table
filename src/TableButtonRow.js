@@ -4,7 +4,7 @@ import UnsortedData from "./Contexts/UnsortedData";
 import PageNum from "./Contexts/PageNum";
 import SortingMode from "./Contexts/SortingMode";
 
-function TableButtonRow({ className, setDataToShow, buttons }) {
+function TableButtonRow({ setDataToShow, buttons }) {
   const { data, setData } = useContext(DataStore);
   const { unsortedData } = useContext(UnsortedData);
   const { setPageNum } = useContext(PageNum);
@@ -47,7 +47,7 @@ function TableButtonRow({ className, setDataToShow, buttons }) {
   }
 
   return (
-    <div className={className} onClick={sorter}>
+    <div className="buttons-row" onClick={sorter}>
       {buttons}
     </div>
   );

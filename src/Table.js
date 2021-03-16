@@ -35,8 +35,6 @@ function Table({ dataToShow, setDataToShow }) {
           />
         ))
       );
-      console.log(choppedResponse);
-      console.log(buttons);
     }
 
     fetchData();
@@ -48,11 +46,7 @@ function Table({ dataToShow, setDataToShow }) {
 
   return (
     <div className="table">
-      <TableButtonRow
-        className="buttons-row"
-        setDataToShow={setDataToShow}
-        buttons={buttons}
-      />
+      <TableButtonRow setDataToShow={setDataToShow} buttons={buttons} />
       {dataToShow.map((elem) => (
         <TableItemRow className={"table-item"}>
           {Object.values(elem).map((elem, index) => (
