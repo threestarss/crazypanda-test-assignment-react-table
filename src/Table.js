@@ -1,14 +1,16 @@
-import { useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import DataStore from "./Contexts/DataStore";
 import PageNum from "./Contexts/PageNum";
 import UnsortedData from "./Contexts/UnsortedData";
 
 import TableButtonRow from "./TableButtonRow";
+import TableItemColumn from "./TableItemColumn";
 import TableItemRow from "./TableItemRow";
 import SortingButton from "./SortingButton";
 
 function Table({ dataToShow, setDataToShow }) {
+  const [buttons, setButtons] = useState();
   const { data, setData } = useContext(DataStore);
   const { setUnsortedData } = useContext(UnsortedData);
   const { pageNum } = useContext(PageNum);
@@ -23,6 +25,18 @@ function Table({ dataToShow, setDataToShow }) {
       setUnsortedData(choppedResponse);
       setData(choppedResponse);
       setDataToShow(choppedResponse.slice(0, 50));
+      setButtons(
+        Object.keys(choppedResponse[0]).map((elem, index) => (
+          <SortingButton
+            className={`table-column-${index + 1}`}
+            id={elem}
+            type={"string"}
+            name={elem}
+          />
+        ))
+      );
+      console.log(choppedResponse);
+      console.log(buttons);
     }
 
     fetchData();
@@ -34,48 +48,17 @@ function Table({ dataToShow, setDataToShow }) {
 
   return (
     <div className="table">
-      <TableButtonRow className="buttons-row" setDataToShow={setDataToShow}>
-        <SortingButton
-          className="table-column-1"
-          id={"id"}
-          type={"number"}
-          name={"ID"}
-        />
-        <SortingButton
-          className="table-column-2"
-          id={"postId"}
-          type={"number"}
-          name={"ID поста"}
-        />
-        <SortingButton
-          className="table-column-3"
-          id={"email"}
-          type={"string"}
-          name={"E-mail автора"}
-        />
-        <SortingButton
-          className="table-column-4"
-          id={"name"}
-          type={"string"}
-          name={"Заголовок"}
-        />
-        <SortingButton
-          className="table-column-5"
-          id={"body"}
-          type={"number"}
-          name={"Комментарий"}
-        />
-      </TableButtonRow>
+      <TableButtonRow
+        className="buttons-row"
+        setDataToShow={setDataToShow}
+        buttons={buttons}
+      />
       {dataToShow.map((elem) => (
-        <TableItemRow
-          className={"table-item"}
-          key={elem.id}
-          id={elem.id}
-          postId={elem.postId}
-          email={elem.email}
-          name={elem.name}
-          body={elem.body}
-        />
+        <TableItemRow className={"table-item"}>
+          {Object.values(elem).map((elem, index) => (
+            <TableItemColumn index={index + 1} elem={elem} />
+          ))}
+        </TableItemRow>
       ))}
     </div>
   );

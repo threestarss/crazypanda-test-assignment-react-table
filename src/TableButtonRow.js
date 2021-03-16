@@ -1,10 +1,10 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import DataStore from "./Contexts/DataStore";
 import UnsortedData from "./Contexts/UnsortedData";
 import PageNum from "./Contexts/PageNum";
 import SortingMode from "./Contexts/SortingMode";
 
-function TableButtonRow({ className, setDataToShow, children }) {
+function TableButtonRow({ className, setDataToShow, buttons }) {
   const { data, setData } = useContext(DataStore);
   const { unsortedData } = useContext(UnsortedData);
   const { setPageNum } = useContext(PageNum);
@@ -35,16 +35,12 @@ function TableButtonRow({ className, setDataToShow, children }) {
 
     function ascending(a, b) {
       if (event.target.dataset.type === "string") {
-        return a[event.target.id].localeCompare(b[event.target.id]);
-      } else if (event.target.dataset.type === "number") {
         return a[event.target.id] > b[event.target.id] ? 1 : -1;
       }
     }
 
     function descending(a, b) {
       if (event.target.dataset.type === "string") {
-        return b[event.target.id].localeCompare(a[event.target.id]);
-      } else if (event.target.dataset.type === "number") {
         return a[event.target.id] < b[event.target.id] ? 1 : -1;
       }
     }
@@ -52,7 +48,7 @@ function TableButtonRow({ className, setDataToShow, children }) {
 
   return (
     <div className={className} onClick={sorter}>
-      {children}
+      {buttons}
     </div>
   );
 }
